@@ -1,4 +1,4 @@
-name: "pull-request-linter"
+name: "pr-rules"
 description: "Check pull requests title against provided regex"
 author: "AzadehG"
 
