@@ -21,16 +21,17 @@ on:
  
 jobs:
   execute:
-    name: pr-linter
+    name: pr-rules-job
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - name: run-pr-linter
-        uses: A5100907/pr-linter@v1.20
+      - name: pr-linter-step
+        uses: L20234/pr-rules@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          title_regex: ^(\[([A-Z0-9]{1,6}-[0-9]{1,6})\] [a-zA-Z0-9 \!\?\'\"\=\.\,\(\)\_\-\+]*)$;^(\[(BF|HF)\] [a-zA-Z0-9 \!\?\'\"\=\.\,\(\)\_\-\+]*)$
-          enable_labeler: true
-          enable_file_checker: true
+          title_regex: ^\[([A-Z0-9]{1,6}-[0-9]{1,6}|BF|MERGE)\] ([a-zA-Z0-9 \!\?\'\"\=\.\,\(\)\_\-\+\>\<\/\@\:\$\%\&\*\#])+$
 ~~~
 #### This would enforce following:
 * Valid:
