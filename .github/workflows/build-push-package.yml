@@ -1,0 +1,41 @@
+# This action builds the code from /src, build output is in /dist
+# After app is built it is submitted back to source control
+name: "Build application with dependencies and submit full package to the branch (/dist)"
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/*
+      - hotfix/*
+      - bugfix/*
+jobs:
+  build:
+    name: "Build and submit"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Extract branch name"
+        shell: bash
+        run: |
+          echo "The branch name is ${GITHUB_REF#refs/heads/}"
+          echo "branch_name=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+      - name: "Get the source"
+        uses: actions/checkout@v3.3.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
+      - name: "Get node dependencies"
+        run: |
+          npm install
+          npm ci
+        # make sure that .gitignore has 'node_modules' in it, otherwise all modules will be committed along the built index.js
+      - name: "build source"
+        run: |
+          export NODE_OPTIONS=--openssl-legacy-provider
+          npm run build
+      - name: "Commit & Push changes"
+        uses: actions-js/push@v1.4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.branch_name }}
