@@ -1,8 +1,8 @@
 # pr-rules
 Validates a syntax of the pull request title against specified regexes.
 
-# Using the action
-**Inputs**
+## Using the action
+### Inputs
 * github_token - GitHub authentication token, can be passed in as '${{ secrets.GITHUB_TOKEN }}'.
 
     * required: true
@@ -10,8 +10,8 @@ Validates a syntax of the pull request title against specified regexes.
 
     * required: true
     * NOTE: Do not use " or ' characters to wrap the string, pass as is (see example)
-# Usage
-**Example:**
+### Usage
+#### Example:
 ~~~
 name: "Pull Request Linter"
  
@@ -32,7 +32,7 @@ jobs:
           enable_labeler: true
           enable_file_checker: true
 ~~~
-**This would enforce following:**
+#### This would enforce following:
 * Valid:
 ~~~
 [M-1] valid Example of a feature PR title 1234=-+_.,!?'"()
@@ -47,14 +47,14 @@ jobs:
 [I4-1]:Invalid because ':' is not a valid character
 [IA-11] Title @#$%^&*{};\/~:` these are the characters that are not allowed
 ~~~
-# Additional features
-**Auto-labeler**
+## Additional features
+### Auto-labeler
 * This Feature will auto add a label to the Pull Request on the multi-project repos. If branch contains a project prefix in its name, auto-labeler will workout project prefix from the branch name and use that as a label.
 * Label properties like color and description can be changed later manually if required.
 * Enabled by default for all repos
 * Can be explicitly disabled by supplying workflow argument enable_labeler: false to a step 'run-pr-linter'
 
-**File type checker**
+### File type checker
 * This feature checks for files added in the PR and if binaries found, raise an error. This makes it so PR with binaries must be approved by an Administrator.
 * Enabled by default for all repos
 * Can be explicitly disabled by supplying workflow argument enable_file_checker: false to a step 'run-pr-linter'
