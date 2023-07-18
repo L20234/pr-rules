@@ -4,7 +4,6 @@ Validates a syntax of the pull request title against specified regexes.
 ## Using the action
 ### Inputs
 * github_token - GitHub authentication token, can be passed in as '${{ secrets.GITHUB_TOKEN }}'.
-
     * required: true
 * title_regex - Semicolon separated list of Regex patterns to validate the pull request title against
 
